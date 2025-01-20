@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Absence{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm p-4">
+    <h2 class="text-center text-primary mb-4">Absensi Mahasiswa</h2>
+    <form action="/add_user" method="POST" class="needs-validation" novalidate autocomplete="off">
+        <div class="mb-3">
+            <label for="nama" class="form-label">Nama</label>
+            <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama Mahasiswa" required>
+            <div class="invalid-feedback">Nama wajib diisi.</div>
+        </div>
+        <div class="mb-3">
+            <label for="nim" class="form-label">NIM</label>
+            <input type="text" id="nim" name="nim" class="form-control" placeholder="NIM" required>
+            <div class="invalid-feedback">NIM wajib diisi.</div>
+        </div>
+        <div class="mb-3">
+            <label for="jurusan" class="form-label">Jurusan</label>
+            <input type="text" id="jurusan" name="jurusan" class="form-control" placeholder="Nama Jurusan" required>
+            <div class="invalid-feedback">Jurusan wajib diisi.</div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
+    </form>
+</div>
+
+<div class="mt-5">
+    <h2 class="text-center text-secondary mb-4">Data Mahasiswa</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center shadow-sm">
+            <thead class="table-purple">
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>NIM</th>
+                    <th>Jurusan</th>
+                    <th>Waktu</th>
+                </tr>
+            </thead>            
+            <tbody>
+                {% for row in hasil %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add script to enable form validation -->
+<script>
+    (function () {
+        'use strict';
+        // Fetch all forms we want to apply custom validation to
+        var forms = document.querySelectorAll('.needs-validation');
+        // Loop over them and prevent submission if invalid
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+{% endblock %}

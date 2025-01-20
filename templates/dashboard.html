@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<!-- Add User Form -->
+<div class="card shadow-sm mb-5">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Absensi Mahasiswa</h4>
+        <a class="btn btn-success btn-sm" href="{{ url_for('student_calendar') }}">Lihat Kalender</a>
+    </div>
+    <div class="card-body">
+        <form action="/add_user" method="POST" class="needs-validation" novalidate>
+            <!-- Nama -->
+            <div class="mb-3">
+                <label for="nama" class="form-label">Nama</label>
+                <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama Mahasiswa" autocomplete="off" required>
+                <div class="invalid-feedback">Nama wajib diisi.</div>
+            </div>
+
+            <!-- NIM -->
+            <div class="mb-3">
+                <label for="nim" class="form-label">NIM</label>
+                <input type="text" id="nim" name="nim" class="form-control" placeholder="NIM" autocomplete="off" required>
+                <div class="invalid-feedback">NIM wajib diisi.</div>
+            </div>
+
+            <!-- Jurusan -->
+            <div class="mb-3">
+                <label for="jurusan" class="form-label">Jurusan</label>
+                <input type="text" id="jurusan" name="jurusan" class="form-control" placeholder="Nama Jurusan" autocomplete="off" required>
+                <div class="invalid-feedback">Jurusan wajib diisi.</div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Tambah Mahasiswa</button>
+        </form>
+    </div>
+</div>
+
+<!-- Users Table -->
+<div class="card shadow-sm">
+    <div class="card-header text-white bg-primary">
+        <h4 class="mb-0">Data Mahasiswa</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-purple">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama</th>
+                        <th>NIM</th>
+                        <th>Jurusan</th>
+                        <th>Waktu</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in hasil %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[4] }}</td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{{ url_for('update_user', user_id=row[0]) }}" class="btn btn-warning btn-sm">Update</a>
+                                <a href="{{ url_for('delete_user', user_id=row[0]) }}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?')">Hapus</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Form Validation Script -->
+<script>
+    (function () {
+        'use strict';
+        // Fetch all forms we want to apply custom validation to
+        var forms = document.querySelectorAll('.needs-validation');
+        
+        // Loop over them and prevent submission if invalid
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+{% endblock %}

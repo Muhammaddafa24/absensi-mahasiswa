@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Student{% endblock %}
+
+{% block content %}
+<div class="card shadow-lg p-5 mx-auto" style="max-width: 600px; border-radius: 10px;">
+    <h2 class="text-center text-primary mb-4">Update Absensi Mahasiswa</h2>
+    <!-- Display flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/update_user/{{ user[0] }}" method="POST" class="needs-validation" novalidate>
+        <div class="mb-4">
+            <label for="nama" class="form-label fw-bold">Name</label>
+            <input type="text" id="nama" name="nama" class="form-control" value="{{ user[1] }}" placeholder="Enter student name" required>
+            <div class="invalid-feedback">Name is required.</div>
+        </div>
+        <div class="mb-4">
+            <label for="nim" class="form-label fw-bold">NIM</label>
+            <input type="text" id="nim" name="nim" class="form-control" value="{{ user[2] }}" placeholder="Enter student NIM" required>
+            <div class="invalid-feedback">NIM is required.</div>
+        </div>
+        <div class="mb-4">
+            <label for="jurusan" class="form-label fw-bold">Jurusan</label>
+            <input type="text" id="jurusan" name="jurusan" class="form-control" value="{{ user[3] }}" placeholder="Enter student department" required>
+            <div class="invalid-feedback">Department is required.</div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Update</button>
+    </form>
+</div>
+
+<!-- Add script for form validation -->
+<script>
+    (function () {
+        'use strict';
+        // Fetch all forms we want to apply custom validation to
+        var forms = document.querySelectorAll('.needs-validation');
+        // Loop over them and prevent submission if invalid
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+{% endblock %}

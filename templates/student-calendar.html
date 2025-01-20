@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Calendar Page Content -->
+    <div class="container mt-5">
+        <h2>Kalender Mahasiswa</h2>
+        
+        <!-- FullCalendar -->
+        <div id="calendar"></div> 
+    </div>
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar/main.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/calendar.css') }}">
+
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar/main.min.js"></script>
+    <!-- FullCalendar Locale -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar/locales/id.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'id', 
+                initialView: 'dayGridMonth',
+                events: [
+                    { title: 'Kuliah sore', start: '2025-01-02' },
+                    { title: 'UAS', start: '2025-01-13', className: 'animated-event' },
+                    {% for event in events %}
+                    { title: '{{ event.title }}', start: '{{ event.start_date }}' },
+                    {% endfor %}
+                ]
+            });
+            calendar.render();
+        });
+    </script>
+{% endblock %}

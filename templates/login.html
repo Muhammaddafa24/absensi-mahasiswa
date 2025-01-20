@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+<div class="card shadow-lg p-5 mx-auto" style="max-width: 400px; border-radius: 10px;">
+    <h2 class="text-center text-primary mb-4">Admin Login</h2>
+    <!-- Display flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/login" method="POST" class="needs-validation" novalidate>
+        <div class="mb-4">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
+            <div class="invalid-feedback">Username is required.</div>
+        </div>
+        <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+            <div class="invalid-feedback">Password is required.</div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+    <p class="text-center mt-4">
+        <a href="#" class="text-decoration-none text-primary">Forgot your password?</a>
+    </p>
+</div>
+
+<!-- Add script for form validation -->
+<script>
+    (function () {
+        'use strict';
+        // Fetch all forms we want to apply custom validation to
+        var forms = document.querySelectorAll('.needs-validation');
+        // Loop over them and prevent submission if invalid
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+{% endblock %}
